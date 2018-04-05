@@ -1,0 +1,1 @@
+testvalue: '{{ .Chart.Version }}'

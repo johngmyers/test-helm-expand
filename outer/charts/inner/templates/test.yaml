@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ tuple .Release.Name .Release.Revision | join "-" | quote }}
+  namespace: {{.Release.Namespace | quote}}
+  annotations:
+    helm.sh/hook: "test-success"
+  labels:
+    app: skeleton-tests
+    heritage: {{.Release.Service | quote}}
+    release: {{.Release.Name | quote}}
+    chart: {{ replace "+" "_" .Chart.Version | printf "%s-%s" .Chart.Name }}
+spec:
+  restartPolicy: Never
+  containers:
+  - name: test
+    image: centos:7
+    command:
+    - 'sh'
+    - '-c'
+    - 'echo {{ .Values.testvalue }}; [ {{ .Values.testvalue }} eq 0.0.1 ] ;'

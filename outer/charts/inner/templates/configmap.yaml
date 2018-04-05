@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{.Release.Name | quote}}
+  namespace: {{.Release.Namespace | quote}}
+  labels:
+    heritage: {{.Release.Service | quote}}
+    release: {{.Release.Name | quote}}
+    chart: {{ replace "+" "_" .Chart.Version | printf "%s-%s" .Chart.Name }}
+data:
+  testvalue: "{{ .Values.testvalue }}"
